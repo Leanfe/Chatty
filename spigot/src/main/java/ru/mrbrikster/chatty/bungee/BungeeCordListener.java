@@ -75,7 +75,7 @@ public class BungeeCordListener implements PluginMessageListener {
             if (json) {
                 FancyMessage fancyMessage = FancyMessage.deserialize(text);
                 fancyMessage.send(Bukkit.getOnlinePlayers().stream().filter(recipient -> {
-                    return !chat.isPermissionRequired()
+                    return chat.isPermissionRequired()
                             || recipient.hasPermission("chatty.chat." + chat.getName() + ".see")
                             || recipient.hasPermission("chatty.chat." + chat.getName());
                 }).collect(Collectors.toList()), null);
@@ -83,7 +83,7 @@ public class BungeeCordListener implements PluginMessageListener {
                 fancyMessage.send(Bukkit.getConsoleSender(), null);
             } else {
                 Bukkit.getOnlinePlayers().stream().filter(recipient -> {
-                    return !chat.isPermissionRequired()
+                    return chat.isPermissionRequired()
                             || recipient.hasPermission("chatty.chat." + chat.getName() + ".see")
                             || recipient.hasPermission("chatty.chat." + chat.getName());
                 }).forEach(onlinePlayer -> {

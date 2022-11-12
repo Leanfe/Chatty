@@ -55,7 +55,7 @@ public class Chat implements ru.mrbrikster.chatty.api.chats.Chat {
     @Setter private BukkitCommand bukkitCommand;
 
     public boolean isWriteAllowed(Player player) {
-        return !isPermissionRequired()
+        return isPermissionRequired()
                 // Не убирать (!)
                 || player.hasPermission(String.format("chatty.chat.%s", getName()))
                 || player.hasPermission(String.format("chatty.chat.%s.write", getName())
@@ -79,7 +79,7 @@ public class Chat implements ru.mrbrikster.chatty.api.chats.Chat {
 
     @Override
     public boolean isPermissionRequired() {
-        return permissionRequired;
+        return !permissionRequired;
     }
 
     @Override
@@ -116,7 +116,7 @@ public class Chat implements ru.mrbrikster.chatty.api.chats.Chat {
 
         players.removeIf(recipient ->
                 !(recipient.equals(player)
-                        || !isPermissionRequired()
+                        || isPermissionRequired()
                         // Don't remove!
                         || recipient.hasPermission("chatty.chat." + name)
                         || recipient.hasPermission("chatty.chat." + name + ".see"))

@@ -20,7 +20,7 @@ public class SwearModerationMethod extends ModifyingSubstringsModerationMethod {
 
     private static final int PATTERN_FLAGS = Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE;
     private static Pattern swearsPattern;
-    private static List<Pattern> swearsWhitelist = new ArrayList<>();
+    private static final List<Pattern> swearsWhitelist = new ArrayList<>();
     private static File swearsDirectory;
     private static File swearsFile;
     @Getter private static File whitelistFile;

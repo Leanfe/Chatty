@@ -18,6 +18,7 @@ import ru.mrbrikster.chatty.util.TextUtil;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class AdvancementsNotification extends Notification {
 
@@ -97,7 +98,7 @@ public class AdvancementsNotification extends Notification {
 
         private void grant(Player player) {
             Advancement advancement = Bukkit.getAdvancement(id);
-            AdvancementProgress progress = player.getAdvancementProgress(advancement);
+            AdvancementProgress progress = player.getAdvancementProgress(Objects.requireNonNull(advancement));
             if (!progress.isDone()) {
                 progress.getRemainingCriteria().forEach(progress::awardCriteria);
             }
@@ -105,7 +106,7 @@ public class AdvancementsNotification extends Notification {
 
         private void revoke(Player player) {
             Advancement advancement = Bukkit.getAdvancement(id);
-            AdvancementProgress progress = player.getAdvancementProgress(advancement);
+            AdvancementProgress progress = player.getAdvancementProgress(Objects.requireNonNull(advancement));
             if (progress.isDone()) {
                 progress.getAwardedCriteria().forEach(progress::revokeCriteria);
             }

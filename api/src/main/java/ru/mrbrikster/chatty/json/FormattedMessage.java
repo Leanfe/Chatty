@@ -16,8 +16,6 @@ public class FormattedMessage {
 
     private List<MessagePart> messageParts = new ArrayList<>();
 
-    public FormattedMessage() {}
-
     public FormattedMessage(String text) {
         this.messageParts.add(new LegacyMessagePart(text));
     }
@@ -105,51 +103,6 @@ public class FormattedMessage {
 
         return this;
     }
-
-    /*
-    public FormattedMessage replace(String text, MessagePart messagePart) {
-        Map<Integer, List<MessagePart>> replacements =
-                new HashMap<>();
-
-        for (int k = 0; k < messageParts.size(); k++) {
-            MessagePart part = messageParts.get(k);
-            if (!(part instanceof LegacyMessagePart))
-                continue;
-
-            String legacyText = ((LegacyMessagePart) part).getText();
-
-            if (!legacyText.contains(text)) continue;
-
-            List<MessagePart> updatedMessageParts = new ArrayList<>();
-            String[] legacyTextSplit = legacyText.split(Pattern.quote(text), 2);
-
-            if (legacyTextSplit.length == 1)
-                legacyTextSplit = new String[] {legacyTextSplit[0], ""};
-
-            for (int i = 0; i < legacyTextSplit.length; i++) {
-                String splitPart = legacyTextSplit[i];
-
-                if (!splitPart.isEmpty())
-                    updatedMessageParts.add(new LegacyMessagePart(splitPart));
-
-                if (i != (legacyTextSplit.length - 1))
-                    updatedMessageParts.add(messagePart);
-            }
-
-            replacements.put(k, updatedMessageParts);
-        }
-
-        for (Map.Entry<Integer, List<MessagePart>> integerListEntry : replacements.entrySet()) {
-            int idx = integerListEntry.getKey();
-            List<MessagePart> updatedMessageParts = integerListEntry.getValue();
-
-            messageParts.remove(idx);
-            messageParts.addAll(idx, updatedMessageParts);
-        }
-
-        return this;
-    }
-    */
 
     public String getLastColors() {
         return toFancyMessage().getLastColors();

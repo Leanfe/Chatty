@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Objects;
 import java.util.function.Function;
 
 public class Messages {
@@ -44,7 +45,7 @@ public class Messages {
 
                 if (!enLocaleFile.exists()) {
                     try {
-                        FileUtils.copyURLToFile(getClass().getResource("/locale/en.yml"), enLocaleFile);
+                        FileUtils.copyURLToFile(Objects.requireNonNull(getClass().getResource("/locale/en.yml")), enLocaleFile);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

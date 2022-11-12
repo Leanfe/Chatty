@@ -16,7 +16,6 @@ public class CommandManager {
     private final ChatManager chatManager;
     private final DependencyManager dependencyManager;
     private final JsonStorage jsonStorage;
-    private final ModerationManager moderationManager;
 
     private ChattyCommand chattyCommand;
     private ClearChatCommand clearChatCommand;
@@ -34,7 +33,7 @@ public class CommandManager {
         this.chatManager = chatty.getExact(ChatManager.class);
         this.dependencyManager = chatty.getExact(DependencyManager.class);
         this.jsonStorage = chatty.getExact(JsonStorage.class);
-        this.moderationManager = chatty.getExact(ModerationManager.class);
+        ModerationManager moderationManager = chatty.getExact(ModerationManager.class);
 
         this.init();
 
