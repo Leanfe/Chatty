@@ -63,7 +63,9 @@ general:
 
 # The ID of the item that the player must have in the inventory so that he can print to the global.
 tagOfItemEnabled: false
-tagOfItem: MINECRAFT_GRASS
+descriptionItem: ''
+error_message: 'Pizda Ruly'
+
 #
 # On the server there can be different chats with different settings,
 # whether it's donate-chat, admin-chat, or the usual local and global.

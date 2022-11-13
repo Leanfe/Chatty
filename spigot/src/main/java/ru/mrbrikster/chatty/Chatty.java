@@ -84,6 +84,7 @@ public final class Chatty extends BukkitBasePlugin {
 
     @Override
     public void onEnable() {
+
         Chatty.instance = Chatty.this;
 
         configuration = getConfiguration();
@@ -102,6 +103,7 @@ public final class Chatty extends BukkitBasePlugin {
         register(DependencyManager.class, new DependencyManager(this));
 
         register(PlayerTagManager.class, new PlayerTagManager(this));
+
         register(ChatManager.class, new ChatManager(this));
 
         register(Messages.class, new Messages(this));

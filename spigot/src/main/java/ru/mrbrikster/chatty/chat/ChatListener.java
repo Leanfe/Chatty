@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.EventExecutor;
 import org.jetbrains.annotations.NotNull;
 import ru.mrbrikster.baseplugin.config.Configuration;
@@ -29,11 +30,8 @@ import ru.mrbrikster.chatty.util.Pair;
 import ru.mrbrikster.chatty.util.Sound;
 import ru.mrbrikster.chatty.util.TextUtil;
 
-import java.util.ArrayList;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UnknownFormatConversionException;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -115,6 +113,20 @@ public class ChatListener implements Listener, EventExecutor {
             event.setCancelled(true);
             player.sendMessage(Chatty.instance().messages().get("chat-not-found"));
             return;
+        }
+
+        assert chat.getAliases() != null;
+        for (String s : chat.getAliases()) {
+            if (s.equalsIgnoreCase("gchat")) {
+                if (!Chatty.instance().getConfig().getBoolean("tagOfItemEnabled"))
+                    return;
+                ItemStack item = giveExecutableItem(player);
+                if (item == null || !event.getPlayer().getInventory().contains(item)) {
+                    event.setCancelled(true);
+                    player.sendMessage(Objects.requireNonNull(Chatty.instance().getConfig().getString("error_message")));
+                    break;
+                }
+            }
         }
 
         boolean json = configuration.getNode("json.enable").getAsBoolean(false);
@@ -205,6 +217,27 @@ public class ChatListener implements Listener, EventExecutor {
             ChattyMessageEvent chattyMessageEvent = new ChattyMessageEvent(player, chat, event.getMessage());
             Bukkit.getPluginManager().callEvent(chattyMessageEvent);
         });
+    }
+
+    /** Exemple you decide to support ExecutableItems in your shop plugin **/
+
+    public ItemStack giveExecutableItem(Player player) {
+        AtomicReference<ItemStack> result = new AtomicReference<>();
+        player.getInventory().forEach(itemStack -> {
+            if (itemStack != null) {
+                if (!itemStack.hasItemMeta())
+                    return;
+                if (!itemStack.getItemMeta().hasLore())
+                    return;
+                itemStack.getItemMeta().getLore().forEach(action -> {
+                    if (ChatColor.stripColor(action).equalsIgnoreCase(Chatty.instance().getConfig().getString("descriptionItem"))) {
+                        result.set(itemStack);
+                    }
+                });
+            }
+        });
+
+        return result.get();
     }
 
     private boolean hasActiveCooldown(AsyncPlayerChatEvent event, Player player, Chat chat) {
